@@ -46,10 +46,20 @@ local function setClothing(ped, clothing)
     end
 end
 
+local function getCloesestAttachObject(coords, radius, object)
+    return lib.waitFor(function()
+        local obj = GetClosestObjectOfType(coords.x, coords.y, coords.z, radius or 1.5, object, false, false, false)
+        if obj and DoesEntityExist(obj) then
+            return obj
+        end
+    end)
+end
+
 local function createAiPed(info)
     local ped
     local model = type(info.model) == "string" and GetHashKey(info.model) or info.model
     local anim = info.anim
+    local attach = info.attachToObject
     local clothing = info.clothing
     local coords = info.coords
     local options = info.options
@@ -70,7 +80,7 @@ local function createAiPed(info)
         ped = CreatePed(4, model, coords.x, coords.y, found and ground or coords.z, coords.w or coords.h or info.heading, false, false)
 
         local time = GetCloudTimeAsInt()
-        while not DoesEntityExist(ped) and time-GetCloudTimeAsInt() < 5 do
+        while not DoesEntityExist(ped) and GetCloudTimeAsInt()-time < 5 do
             Wait(100)
         end
 
@@ -83,16 +93,37 @@ local function createAiPed(info)
             TaskPlayAnim(ped, anim.dict, anim.clip, 2.0, 8.0, -1, 1, 0, 0, 0, 0)
         end
 
+        if attach then
+            local object = getCloesestAttachObject(coords, attach.radius, attach.object)
+            if object then
+                AttachEntityToEntity(ped, object, -1, attach.pos.x, attach.pos.y, attach.pos.z, attach.rot.x, attach.rot.y, attach.rot.z, false, false, true, true, 2, true)
+            end
+        end
+
         if options then
             Wait(500)
-            ox_target:addLocalEntity({ped}, options)
+            local targetInfo = info.target
+            if targetInfo and targetInfo.type == "addBoxZone" then
+                local targetCorods = GetOffsetFromEntityInWorldCoords(ped, targetInfo.offset.x, targetInfo.offset.y, targetInfo.offset.z)
+                ox_target:addBoxZone({
+                    coords = targetCorods,
+                    radius = 2.5,
+                    drawSprite = true,
+                    options = options
+                })
+            else
+                ox_target:addLocalEntity({ped}, options)
+            end
         end
     end
 
     function point:onExit()
         if ped and DoesEntityExist(ped) then
             if options then
-                ox_target:removeLocalEntity({ped})
+                local targetInfo = info.target
+                if not targetInfo or targetInfo.type ~= "addBoxZone" then
+                    ox_target:removeLocalEntity({ped})
+                end
             end
             Wait(500)
             DeleteEntity(ped)
