@@ -46,7 +46,7 @@ local peds = {
         },
         options = {
             {
-                name = "nd_casino:valet",
+                name = "nd_casino:valetPark",
                 icon = "fa-solid fa-square-parking",
                 label = "Park vehicle",
                 distance = 2.0,
@@ -54,13 +54,13 @@ local peds = {
                     local vehicle = Bridge.getNearestValetVehicle(cache.ped)
                     if not vehicle then return end
                     for i=0, 5 do SetVehicleDoorShut(vehicle, i, false) end
-                    
+
                     local netId = NetworkGetNetworkIdFromEntity(vehicle)
                     TriggerServerEvent("ND_Casino:parkVehicleValet", netId)
                 end
             },
             {
-                name = "nd_casino:valet",
+                name = "nd_casino:valetBring",
                 icon = "fa-solid fa-car",
                 label = "Bring vehicle",
                 distance = 2.0,
