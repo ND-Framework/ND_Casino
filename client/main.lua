@@ -22,3 +22,7 @@ AddEventHandler("onResourceStop", function(resourceName)
     end
 end)
 
+if GetResourceState("ND_AppearanceShops") == "started" then
+    local clothing = require("data.clothing")
+    exports["ND_AppearanceShops"]:createClothingStore(clothing)
+end
