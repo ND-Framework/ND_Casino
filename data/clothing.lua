@@ -2,12 +2,6 @@
 return {
     price = 500,
     text = "Change clothes",
-    blip = {
-        label = "Clothing store",
-        sprite = 73,
-        scale = 0.55,
-        color = 3
-    },
     appearance = {
         components = true,
         props = true,
