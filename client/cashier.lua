@@ -1,4 +1,5 @@
-local membershipData = require "data.membership"
+local prices = require "data.prices"
+local membershipData = prices.membership
 local membershipOptions = {}
 
 for i=1, #membershipData do
@@ -55,7 +56,7 @@ local peds = {
                 distance = 1.6,
                 onSelect = function(data)
                     local input = lib.inputDialog("Aquire chips", {
-                        {type = "number", label = "Amount", description = "How many chips would you like to purchase?", required = true}
+                        {type = "number", label = "Amount of chips", description = ("Purchase chips, $%d for each chip"):format(prices.chips), required = true}
                     })
                     if not input or not input[1] then return end
                     TriggerServerEvent("ND_Casino:interactCashier", "buy", input[1])
@@ -68,7 +69,7 @@ local peds = {
                 distance = 1.6,
                 onSelect = function(data)
                     local input = lib.inputDialog("Trade in chips", {
-                        {type = "number", label = "Amount", description = "How much would you like to trade in?", required = true}
+                        {type = "number", label = "Amount of chips", description = ("Trade in chips, receive $%d for each"):format(prices.chips), required = true}
                     })
                     if not input or not input[1] then return end
                     TriggerServerEvent("ND_Casino:interactCashier", "sell", input[1])

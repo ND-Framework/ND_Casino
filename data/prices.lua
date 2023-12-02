@@ -1,4 +1,8 @@
-return {
+local prices = {}
+
+prices.chips = 5 -- each chip costs 5 dollars.
+
+prices.membership = {
     {
         label = "1 day",
         expiresInHours = 24,
@@ -20,3 +24,5 @@ return {
         price = 25000
     }
 }
+
+return prices
