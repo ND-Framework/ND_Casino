@@ -58,6 +58,7 @@ end
 local function createAiPed(info)
     local ped
     local model = type(info.model) == "string" and GetHashKey(info.model) or info.model
+    local blipInfo = info.blip
     local anim = info.anim
     local attach = info.attachToObject
     local clothing = info.clothing
@@ -113,6 +114,19 @@ local function createAiPed(info)
                 })
             else
                 ox_target:addLocalEntity({ped}, options)
+            end
+        end
+
+        if blipInfo then
+            local blip = AddBlipForEntity(ped)
+            SetBlipSprite(blip, blipInfo.sprite or 280)
+            SetBlipScale(blip, blipInfo.scale or 0.8)
+            SetBlipColour(blip, blipInfo.color or 3)
+            SetBlipAsShortRange(blip, true)
+            if blipInfo.label then                
+                BeginTextCommandSetBlipName("STRING")
+                AddTextComponentString(blipInfo.label)
+                EndTextCommandSetBlipName(blip)
             end
         end
     end

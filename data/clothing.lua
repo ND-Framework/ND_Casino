@@ -6,6 +6,13 @@ return {
         components = true,
         props = true,
     },
+    blip = {
+        label = "Clothing store",
+        sprite = 73,
+        scale = 0.8,
+        color = 0,
+        showWhenNear = true
+    },
     locations = {
         {
             model = `u_f_m_casinoshop_01`,

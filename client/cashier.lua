@@ -23,6 +23,12 @@ local peds = {
             dict = "AMB@PROP_HUMAN_SEAT_CHAIR@FEMALE@PROPER@BASE",
             clip = "BASE"
         },
+        blip = {
+            label = "Cashier",
+            sprite = 683,
+            scale = 0.8,
+            color = 0
+        },
         attachToObject = {
             object = `vw_prop_casino_stool_02a`,
             radius = 2.0,
