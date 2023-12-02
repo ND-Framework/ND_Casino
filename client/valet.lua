@@ -65,11 +65,7 @@ local peds = {
                 label = "Bring vehicle",
                 distance = 2.0,
                 onSelect = function(data)
-                    local vehicle = Bridge.getNearestValetVehicle(cache.ped)
-                    if not vehicle then return end
-
-                    local netId = NetworkGetNetworkIdFromEntity(vehicle)
-                    TriggerServerEvent("ND_Casino:bringValet", netId)
+                    TriggerServerEvent("ND_Casino:bringValet")
                 end
             }
         },

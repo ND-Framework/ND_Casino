@@ -69,11 +69,11 @@ RegisterNetEvent("ND_Casino:parkVehicleValet", function(netId)
     })
 end)
 
-RegisterNetEvent("ND_Casino:bringValet", function(netId)
+RegisterNetEvent("ND_Casino:bringValet", function()
     local src = source
     if not parkedVehicles[src] then return end
 
-    local vehicle = getVehicleFromNetId(netId)
+    local vehicle = getVehicleFromNetId(parkedVehicles[src])
     if not vehicle then
         return TriggerClientEvent("ox_lib:notify", src, {
             title = "Vehicle not found!",
