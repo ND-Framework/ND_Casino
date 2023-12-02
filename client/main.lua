@@ -1,4 +1,5 @@
 local casinoIpl = require "data.ipl"
+IsCasinoVIP = false
 
 local function unloadIpl(ipl)
     return IsIplActive(ipl) and RemoveIpl(ipl)
@@ -20,6 +21,14 @@ AddEventHandler("onResourceStop", function(resourceName)
     for i=1, #casinoIpl do
         unloadIpl(casinoIpl[i])
     end
+end)
+
+RegisterNetEvent("ND_Casino:updateMembershipStatus", function(isMember)
+    IsCasinoVIP = isMember
+end)
+
+exports("isMember", function()
+    return IsCasinoVIP
 end)
 
 if GetResourceState("ND_AppearanceShops") == "started" then

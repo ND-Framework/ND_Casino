@@ -80,6 +80,9 @@ local peds = {
                 icon = "fa-solid fa-crown",
                 label = "Buy VIP membership",
                 distance = 1.6,
+                canInteract = function()
+                    if not IsCasinoVIP then return true end
+                end,
                 onSelect = function(data)
                     local input = lib.inputDialog("Buy VIP membership", {
                         {

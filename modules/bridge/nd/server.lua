@@ -25,4 +25,33 @@ function bridge.addChips(src, amount)
     inventory:AddItem(src, "casino_chips", amount)
 end
 
+function bridge.getMembership(src)
+    local player = NDCore:getPlayer(src)
+    if not player then return end
+    return player.getMetadata("casino_vip_membership")
+end
+
+function bridge.updateMembership(src, expires)
+    local player = NDCore:getPlayer(src)
+    if not player then return end
+    local metadata = player.setMetadata("casino_vip_membership", expires)
+    return metadata.casino_vip_membership
+end
+
+AddEventHandler("ND:characterLoaded", function(character)
+    local src = character.source
+    if not src then return end
+    UpdateMemberStatus(src, IsCasinoMember(src))
+end)
+
+AddEventHandler("onResourceStart", function(resourceName)
+    if cache.resource ~= resourceName then return end
+
+    local players = NDCore:getPlayers()
+    for src, _ in pairs(players) do
+        UpdateMemberStatus(src, IsCasinoMember(src))
+        Wait(100)
+    end
+end)
+
 return bridge

@@ -14,6 +14,10 @@ local interactFunctions = {
     vip = function(src, index)
         local info = prices.membership[index]
         Bridge.removeMoney(src, info.price, ("Casino %s VIP membership"):format(info.label))
+
+        local expires = os.time()+(info.expiresInHours*3600)
+        Bridge.updateMembership(src, expires)
+        UpdateMemberStatus(src, IsCasinoMember(src))
     end
 }
 
