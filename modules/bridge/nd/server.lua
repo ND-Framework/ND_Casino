@@ -14,9 +14,13 @@ function bridge.addMoney(src, amount, reason)
     player.addMoney("bank", amount, reason)
 end
 
+function bridge.getChips(src)
+    if GetResourceState("ox_inventory") ~= "started" then return 0 end
+    return inventory:GetItem(src, "casino_chips", nil, true)
+end
+
 function bridge.removeChips(src, amount)
     if GetResourceState("ox_inventory") ~= "started" then return end
-    if inventory:GetItem(src, "casino_chips", nil, true) < amount then return end
     return inventory:RemoveItem(src, "casino_chips", amount) == true
 end
 
@@ -38,20 +42,18 @@ function bridge.updateMembership(src, expires)
     return metadata.casino_vip_membership
 end
 
-AddEventHandler("ND:characterLoaded", function(character)
-    local src = character.source
-    if not src then return end
-    UpdateMemberStatus(src, IsCasinoMember(src))
-end)
-
-AddEventHandler("onResourceStart", function(resourceName)
-    if cache.resource ~= resourceName then return end
-
+function bridge.updateAllPlayers()
     local players = NDCore:getPlayers()
     for src, _ in pairs(players) do
         UpdateMemberStatus(src, IsCasinoMember(src))
         Wait(100)
     end
+end
+
+AddEventHandler("ND:characterLoaded", function(character)
+    local src = character.source
+    if not src then return end
+    UpdateMemberStatus(src, IsCasinoMember(src))
 end)
 
 return bridge

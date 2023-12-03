@@ -8,4 +8,8 @@ function IsCasinoMember(src)
     return expires-os.time() > 0
 end
 
+SetTimeout(500, function()
+    Bridge.updateAllPlayers()
+end)
+
 exports("isMember", IsCasinoMember)

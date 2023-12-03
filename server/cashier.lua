@@ -8,7 +8,8 @@ local interactFunctions = {
     end,
     sell = function(src, amount)
         local money = amount*prices.chips
-        if not Bridge.removeChips(src, amount) then return end
+        if Bridge.getChips(src) < amount then return end
+        Bridge.removeChips(src, amount)
         Bridge.addMoney(src, money, ("Sold %d Casino chips"):format(amount))
     end,
     vip = function(src, index)
