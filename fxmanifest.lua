@@ -24,3 +24,8 @@ client_scripts {
 server_scripts {
     "server/**"
 }
+
+dependencies {
+    "ox_target",
+    "ox_lib"
+}
